@@ -1,3 +1,3 @@
 # XML_CNJ
 
-Código fonte de extração de dados do PJE para o DATAJUD
+Código fonte de extração de dados PostgreSQL do PJE para o DATAJUD

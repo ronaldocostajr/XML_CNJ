@@ -1,17 +1,20 @@
-// Database DATAJUD
 db.getCollection('1GRAU').find(
-    {'dadosBasicos.@dataAjuizamento': {$regex: '^2020+'}},      //Data Ajuizamento 2020
-    {$or: [
-            {'movimento.movimentoNacional.@codigoNacional':     // Movimento de Distribuição
+    {'dadosBasicos.@dataAjuizamento': {$regex: '^2020+'},      //Data Ajuizamento 2020
+    $or: [  {'movimento.movimentoNacional.@codigoNacional':     // Movimento de Distribuição
                 { $in: ['26', '981']}
             }   
-          ]   
+          ],
+    $or: [  {'dadosBasicos.@classeProcessual':                 // Classes Processuais
+                { $in: ['83', '1233','188', '193','194','195','985','1125','1126','990','991','992','1116']} 
+            }    
+         ]
     },
-    {$or: [  {'dadosBasicos.@classeProcessual':                 // Classes Processuais
-                { $in: ['83', '1233','188', '193','194','195','985','1125','1126']} 
-             },    
-          ]
-    }
+    // projeção - informações que vão aparecer na consulta
+    {  'dadosBasicos.@numero':1, 
+       'dadosBasicos.@classeProcessual':1, 
+       'dadosBasicos.@dataAjuizamento':1,
+       'movimento.movimentoNacional.@codigoNacional':1, 
+       'movimento.movimentoNacional.complemento':1}
 ).count()
 
 // 83   Cautelar Fiscal
@@ -23,3 +26,7 @@ db.getCollection('1GRAU').find(
 // 985  Ação Trabalhista - Rito Ordinário
 // 1125 Ação Trabalhista - Rito Sumário (Alçada)
 // 1126 Ação Trabalhista - Rito Sumaríssimo
+// 990	Execução de Título Extrajudicial
+// 991	Execução de Termo de Ajuste de Conduta
+// 992	Execução de Termo de Conciliação de CCP
+// 1116	Execução Fiscal

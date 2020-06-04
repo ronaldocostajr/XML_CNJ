@@ -1,0 +1,26 @@
+db.getCollection('1GRAU').aggregate([ 
+    { $match:
+        {'dadosBasicos.@dataAjuizamento': {$regex: '^2020+'},      //Data Ajuizamento 2020
+            $or: [  {'movimento.movimentoNacional.@codigoNacional':     // Movimento de Distribuição
+                        { $in: ['26', '981']}
+                    }   
+                  ],
+            $or: [  {'dadosBasicos.@classeProcessual':                 // Classes Processuais
+                        { $in: ['83', '1233','188', '193','194','195','985','1125','1126','990','991','992','1116']} 
+                    }    
+                 ]
+        }
+    },    
+    { $project: 
+        { 'Numero do Processo': { $toDecimal: '$dadosBasicos.@numero'},
+          'Classe Processual':  { $toInt: '$dadosBasicos.@classeProcessual'},
+          'Data Ajuizamento':   { $toDate: "$dadosBasicos.@dataAjuizamento" },
+          'Codigo Nacional': '$movimento.movimentoNacional.@codigoNacional',
+          'Complemento Movimento': '$movimento.movimentoNacional.complemento',
+          'Movimento': { $concatArrays:[
+                        [ "$movimento.movimentoNacional.@codigoNacional"], ["$movimento.movimentoNacional.complemento"] 
+                    ]}
+        } 
+     } 
+])
+

@@ -1,16 +1,18 @@
+// Database DATAJUD
 db.getCollection('1GRAU').find(
+    {'dadosBasicos.@dataAjuizamento': {$regex: '^2020+'}},      //Data Ajuizamento 2020
     {$or: [
-            {'movimento.movimentoNacional.@codigoNacional':'26'},
-            {'movimento.movimentoNacional.@codigoNacional':'981'}
-         ]   
-    } ,
-    {$or: [  {'dadosBasicos.@classeProcessual': 
+            {'movimento.movimentoNacional.@codigoNacional':     // Movimento de Distribuição
+                { $in: ['26', '981']}
+            }   
+          ]   
+    },
+    {$or: [  {'dadosBasicos.@classeProcessual':                 // Classes Processuais
                 { $in: ['83', '1233','188', '193','194','195','985','1125','1126']} 
              },    
-     ]}
-)
-
-//.count()
+          ]
+    }
+).count()
 
 // 83   Cautelar Fiscal
 // 1233 Efeito Suspensivo

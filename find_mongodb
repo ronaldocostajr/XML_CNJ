@@ -1,0 +1,23 @@
+db.getCollection('1GRAU').find(
+    {$or: [
+            {'movimento.movimentoNacional.@codigoNacional':'26'},
+            {'movimento.movimentoNacional.@codigoNacional':'981'}
+         ]   
+    } ,
+    {$or: [  {'dadosBasicos.@classeProcessual': 
+                { $in: ['83', '1233','188', '193','194','195','985','1125','1126']} 
+             },    
+     ]}
+)
+
+//.count()
+
+// 83   Cautelar Fiscal
+// 1233 Efeito Suspensivo
+// 188  Homologação do Penhor Legal
+// 193  Produção Antecipada da Prova
+// 194  Regulamentação de Visitas
+// 195  Separação de Corpos
+// 985  Ação Trabalhista - Rito Ordinário
+// 1125 Ação Trabalhista - Rito Sumário (Alçada)
+// 1126 Ação Trabalhista - Rito Sumaríssimo
